@@ -7,12 +7,12 @@ product revamps live here, separate from application code.
 
 | Drop | What it is |
 |---|---|
-| [Migration Mockups — Revamp 01](./design/migration-mockups/) | The five reference screens from `Migration_Planning.docx` rebuilt for ACX City in the Mangu look: Apple calm × Instagram pulse, one thin vermilion hairline through everything. |
+| [Migration Mockups — Revamp 01](./design/migration-mockups/) | The five reference screens from `Migration_Planning.docx` rebuilt for Chambers in the Mangu look: Apple calm × Instagram pulse, one thin vermilion hairline through everything. |
 
 ## Viewing
 
 Each drop is self-contained. Open
-[`design/migration-mockups/acx-city-migration-mockups.html`](./design/migration-mockups/acx-city-migration-mockups.html)
+[`design/migration-mockups/chambers-migration-mockups.html`](./design/migration-mockups/chambers-migration-mockups.html)
 in any browser — no build step, no external assets. Static PNG exports of
 every screen sit alongside in `exports/`.
 

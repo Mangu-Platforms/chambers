@@ -1,10 +1,10 @@
-# ACX City — Migration Mockups (Revamp 01)
+# Chambers — Migration Mockups (Revamp 01)
 
 High-fidelity, self-contained HTML mockups translating the five reference
 screens in `Migration_Planning.docx` (screenshots of an AI resume builder)
-into **ACX City's own product and brand**.
+into **Chambers' own product and brand**.
 
-**Open [`acx-city-migration-mockups.html`](./acx-city-migration-mockups.html)
+**Open [`chambers-migration-mockups.html`](./chambers-migration-mockups.html)
 in any browser** — no build step, no external assets, fully responsive.
 Static PNG exports of each screen live in [`exports/`](./exports/).
 
@@ -23,7 +23,7 @@ Static PNG exports of each screen live in [`exports/`](./exports/).
 
 ## The five screens (source → revamp)
 
-| # | Source screenshot (resume builder) | Rebuilt as (ACX City) |
+| # | Source screenshot (resume builder) | Rebuilt as (Chambers) |
 |---|---|---|
 | 01 | Landing hero, free tools rail, upload, tailor panel, features, summary generator | Audiobook studio landing: manuscript drop zone, Voice City Audition Room, free audiobook tools, Retail Sample Generator |
 | 02 | Onboarding wizard ("existing resume?") | "Finished manuscript?" step with story-segment progress |
