@@ -40,6 +40,12 @@ jobs:
       - name: Build (demo mode — no secrets)
         run: pnpm build
 
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E smoke (demo mode)
+        run: pnpm e2e
+
   drops:
     name: Drops stay calm (0 JS, < 20KB)
     runs-on: ubuntu-latest
