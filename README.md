@@ -1,6 +1,7 @@
 # Chambers
 
-Design workspace for **Mangu Platforms** — tokens, HTML drops, and product revamps. Not an application. Not Figma.
+Design workspace **and product home** for **Mangu Platforms** — tokens, zero-JS HTML drops, and
+**Chambers Studio**, the calm resume platform.
 
 > Apple calm × Instagram pulse. One thin vermilion hairline through everything.
 
@@ -8,14 +9,17 @@ Design workspace for **Mangu Platforms** — tokens, HTML drops, and product rev
 
 | Artifact | Open |
 |---|---|
+| **Chambers Studio (the product)** | [`apps/studio`](apps/studio) — `cd apps/studio && pnpm install && pnpm dev` |
 | Token source | [`tokens/tokens.json`](tokens/tokens.json) |
 | CSS variables | [`tokens/tokens.css`](tokens/tokens.css) |
 | Tailwind preset | [`tokens/tailwind.preset.cjs`](tokens/tailwind.preset.cjs) |
+| Tokens gallery (every swatch) | [`design/drops/tokens-gallery/index.html`](design/drops/tokens-gallery/index.html) |
 | Drop template | [`design/drops/_template/index.html`](design/drops/_template/index.html) |
 | Resume sheet (Enhancv-class paper) | [`design/drops/resume-sheet/index.html`](design/drops/resume-sheet/index.html) |
 | Original five-screen deck | [`design/migration-mockups/chambers-migration-mockups.html`](design/migration-mockups/chambers-migration-mockups.html) |
 
-No build. No JavaScript on drops. System fonts only.
+Drops: no build, no JavaScript, system fonts only — open the HTML file, print it, done.
+Studio: Next.js 15 + Supabase (or zero-secret demo mode), consuming these tokens directly.
 
 ## Tokens (quick)
 
@@ -33,8 +37,12 @@ No build. No JavaScript on drops. System fonts only.
 
 - [Inventory](docs/INVENTORY.md)
 - [PRD](docs/PRD.md)
-- [Competitors](docs/COMPETITORS.md)
+- [Tokens reference](docs/TOKENS.md)
+- [Competitors](docs/COMPETITORS.md) — design tools + resume platforms
 - [Consume in apps](docs/CONSUME.md)
 - [Prosperity](docs/PROSPERITY.md)
+- [Open questions for the owner](docs/QUESTIONS.md)
+- [ADRs](docs/adr/)
 
-`chambers-ai` is the resume product. This repo is the language it should speak.
+The resume product lives here as [`apps/studio`](apps/studio) — see
+[ADR-001](docs/adr/ADR-001-product-home.md).

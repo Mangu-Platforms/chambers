@@ -1,0 +1,65 @@
+name: Studio CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  studio:
+    name: Typecheck · lint · test · build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/studio
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: apps/studio/pnpm-lock.yaml
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build (demo mode — no secrets)
+        run: pnpm build
+
+  drops:
+    name: Drops stay calm (0 JS, < 20KB)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No scripts, no webfonts, small files
+        run: |
+          set -euo pipefail
+          fail=0
+          for f in design/drops/*/index.html; do
+            size=$(wc -c < "$f")
+            if [ "$size" -gt 20480 ]; then
+              echo "::error file=$f::Drop exceeds 20KB ($size bytes)"; fail=1
+            fi
+            if grep -qi '<script' "$f"; then
+              echo "::error file=$f::Drop contains a <script> tag"; fail=1
+            fi
+            if grep -qi 'fonts.googleapis\|fonts.gstatic\|@font-face' "$f"; then
+              echo "::error file=$f::Drop pulls a webfont"; fail=1
+            fi
+            echo "$f — ${size} bytes, clean"
+          done
+          exit $fail

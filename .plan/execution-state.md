@@ -41,3 +41,7 @@ Phase 5 docs. See `CLAUDE.md` for gates.
 ## Next action
 
 Task #1: write design/drops/tokens-gallery/index.html + docs/TOKENS.md, commit.
+
+- C-001: Studio scaffold complete. typecheck+lint+build green; 25/25 vitest pass. CI workflow
+  (studio-ci.yml: app checks + drops budget), docs (QUESTIONS, READMEs, competitor matrix,
+  monetization) done. Next: push, draft PR, then runtime smoke test via dev server.
