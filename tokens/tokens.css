@@ -1,0 +1,74 @@
+/* Chambers tokens — compiled by hand from tokens.json. No build step required. */
+:root {
+  --ch-vermilion-500: #ff4d00;
+  --ch-vermilion-600: #d93f00;
+  --ch-ink: #1d1d1f;
+  --ch-night: #0b0b0f;
+  --ch-fog: #f5f5f7;
+  --ch-cream: #fffaf6;
+  --ch-paper: #ffffff;
+  --ch-muted: #6e6e73;
+  --ch-line: rgba(255, 77, 0, 0.32);
+  --ch-line-strong: rgba(255, 77, 0, 0.72);
+  --ch-story-amber: #ffc24b;
+  --ch-story-ember: #ff5a1f;
+  --ch-story-blush: #e9308f;
+  --ch-story-iris: #8a3ffc;
+  --ch-story: linear-gradient(135deg, #ffc24b 0%, #ff5a1f 38%, #e9308f 72%, #8a3ffc 100%);
+
+  --ch-hairline: 1px;
+  --ch-hairline-selected: 1.5px;
+  --ch-radius-sm: 8px;
+  --ch-radius-md: 14px;
+  --ch-radius-lg: 22px;
+  --ch-radius-pill: 999px;
+
+  --ch-space-1: 4px;
+  --ch-space-2: 8px;
+  --ch-space-3: 12px;
+  --ch-space-4: 16px;
+  --ch-space-5: 24px;
+  --ch-space-6: 32px;
+  --ch-space-7: 48px;
+  --ch-space-8: 64px;
+  --ch-space-9: 96px;
+  --ch-page-max: 1120px;
+  --ch-page-resume: 816px;
+
+  --ch-sans: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --ch-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --ch-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --ch-size-caption: 11px;
+  --ch-size-meta: 12px;
+  --ch-size-body: 15px;
+  --ch-size-lead: 17px;
+  --ch-size-title: 22px;
+  --ch-size-display: 34px;
+  --ch-size-hero: 56px;
+
+  --ch-weight-regular: 400;
+  --ch-weight-medium: 510;
+  --ch-weight-semibold: 590;
+  --ch-weight-bold: 700;
+
+  --ch-track-display: -0.035em;
+  --ch-track-tight: -0.02em;
+  --ch-track-body: -0.011em;
+
+  --ch-lead-display: 1.05;
+  --ch-lead-title: 1.2;
+  --ch-lead-body: 1.47;
+
+  --ch-shadow-soft: 0 8px 24px rgba(29, 29, 31, 0.06);
+  --ch-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ch-dur: 240ms;
+
+  --ch-btn-h: 44px;
+  --ch-field-h: 44px;
+  --ch-chip-h: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ch-dur: 1ms; }
+}
