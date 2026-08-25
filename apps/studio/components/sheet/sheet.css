@@ -1,0 +1,127 @@
+/*
+ * The Chambers sheet — visual contract shared with design/drops/resume-sheet/index.html.
+ * Values come from tokens.css (--ch-*). Three templates via [data-template].
+ * Printing: only .sheet-print-root survives (see globals.css @media print).
+ */
+
+.sheet {
+  width: 100%;
+  max-width: var(--ch-page-resume);
+  margin: 0 auto;
+  background: var(--ch-paper);
+  border: var(--ch-hairline) solid var(--ch-line);
+  border-radius: var(--ch-radius-lg);
+  box-shadow: var(--ch-shadow-soft);
+  padding: 56px 56px 64px;
+  color: var(--ch-ink);
+  font-family: var(--ch-sans);
+}
+
+.sheet-name {
+  font-family: var(--ch-display);
+  font-size: 42px;
+  font-weight: var(--ch-weight-semibold);
+  letter-spacing: var(--ch-track-display);
+  line-height: var(--ch-lead-display);
+  margin: 0 0 8px;
+}
+
+.sheet-role {
+  font-size: var(--ch-size-lead);
+  color: var(--ch-muted);
+  letter-spacing: var(--ch-track-body);
+  margin: 0 0 18px;
+}
+
+.sheet-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  font-size: var(--ch-size-meta);
+  color: var(--ch-muted);
+  margin-bottom: 28px;
+}
+.sheet-contact a { color: inherit; text-decoration: none; }
+.sheet-contact a:hover { color: var(--ch-vermilion-600); }
+
+.sheet-rule { height: var(--ch-hairline); background: var(--ch-line); border: 0; margin: 0 0 28px; }
+
+.sheet-h2 {
+  font-size: var(--ch-size-caption);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ch-vermilion-600);
+  font-weight: var(--ch-weight-semibold);
+  margin: 0 0 14px;
+}
+
+.sheet-summary {
+  font-size: var(--ch-size-body);
+  line-height: var(--ch-lead-body);
+  letter-spacing: var(--ch-track-body);
+  margin: 0 0 24px;
+}
+
+.sheet-job { margin-bottom: 22px; break-inside: avoid; }
+.sheet-job-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+.sheet-h3 { margin: 0; font-size: var(--ch-size-body); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-tight); }
+.sheet-when { font-size: var(--ch-size-meta); color: var(--ch-muted); white-space: nowrap; }
+.sheet-org { font-size: var(--ch-size-meta); color: var(--ch-muted); margin: 2px 0 8px; }
+
+.sheet ul { margin: 0; padding-left: 1.1em; }
+.sheet li {
+  font-size: var(--ch-size-body);
+  line-height: var(--ch-lead-body);
+  letter-spacing: var(--ch-track-body);
+  margin-bottom: 4px;
+}
+
+.sheet-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+
+.sheet-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sheet-chip {
+  height: var(--ch-chip-h);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 11px;
+  border: var(--ch-hairline) solid var(--ch-line);
+  border-radius: var(--ch-radius-pill);
+  font-size: var(--ch-size-caption);
+}
+
+.sheet-empty {
+  color: var(--ch-muted);
+  font-size: var(--ch-size-body);
+  font-style: italic;
+}
+
+/* ---- Template: compact ---- */
+.sheet[data-template="compact"] { padding: 40px 44px 48px; }
+.sheet[data-template="compact"] .sheet-name { font-size: 30px; margin-bottom: 4px; }
+.sheet[data-template="compact"] .sheet-role { font-size: var(--ch-size-body); margin-bottom: 12px; }
+.sheet[data-template="compact"] .sheet-contact { margin-bottom: 18px; }
+.sheet[data-template="compact"] .sheet-rule { margin-bottom: 18px; }
+.sheet[data-template="compact"] .sheet-h2 { margin-bottom: 10px; }
+.sheet[data-template="compact"] .sheet-job { margin-bottom: 14px; }
+.sheet[data-template="compact"] li { font-size: 13.5px; margin-bottom: 3px; }
+.sheet[data-template="compact"] .sheet-summary { font-size: 13.5px; margin-bottom: 16px; }
+
+/* ---- Template: executive ---- */
+.sheet[data-template="executive"] { padding: 64px 64px 72px; }
+.sheet[data-template="executive"] .sheet-header { text-align: center; }
+.sheet[data-template="executive"] .sheet-name { font-size: 36px; letter-spacing: 0.01em; text-transform: uppercase; font-weight: var(--ch-weight-medium); }
+.sheet[data-template="executive"] .sheet-role { letter-spacing: 0.08em; text-transform: uppercase; font-size: var(--ch-size-meta); }
+.sheet[data-template="executive"] .sheet-contact { justify-content: center; }
+.sheet[data-template="executive"] .sheet-h2 { text-align: center; letter-spacing: 0.22em; }
+.sheet[data-template="executive"] .sheet-rule {
+  background: none;
+  border-top: var(--ch-hairline) solid var(--ch-line);
+  width: 96px;
+  margin: 0 auto 28px;
+}
+
+@media (max-width: 720px) {
+  .sheet, .sheet[data-template="compact"], .sheet[data-template="executive"] { padding: 32px 22px 40px; }
+  .sheet-name { font-size: 32px !important; }
+  .sheet-grid { grid-template-columns: 1fr; }
+}

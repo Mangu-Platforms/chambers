@@ -1,0 +1,56 @@
+@import "../../../tokens/tokens.css";
+@import "../components/sheet/sheet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background: var(--ch-fog);
+  color: var(--ch-ink);
+  font-family: var(--ch-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* One focus ring for the whole product: the strong hairline. */
+:focus-visible {
+  outline: 2px solid var(--ch-line-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: rgba(255, 77, 0, 0.18);
+}
+
+/* Print: the sheet is the page. Everything else disappears. */
+@media print {
+  html,
+  body {
+    background: #fff;
+  }
+  .no-print {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+  .print-stage {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+  }
+  .sheet {
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  @page {
+    size: letter;
+    margin: 0.55in;
+  }
+}

@@ -16,6 +16,15 @@ module.exports = {
         display: ['SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['SF Mono', 'ui-monospace', 'Menlo', 'Consolas', 'monospace'],
       },
+      fontSize: {
+        caption: ['11px', { lineHeight: '1.35' }],
+        meta: ['12px', { lineHeight: '1.4' }],
+        body: ['15px', { lineHeight: '1.47' }],
+        lead: ['17px', { lineHeight: '1.45' }],
+        title: ['22px', { lineHeight: '1.2' }],
+        display: ['34px', { lineHeight: '1.05' }],
+        hero: ['56px', { lineHeight: '1.05' }],
+      },
       letterSpacing: {
         display: '-0.035em',
         tightish: '-0.02em',
