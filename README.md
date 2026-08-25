@@ -1,20 +1,40 @@
 # Chambers
 
-Design workspace for **Mangu Platforms** — mockups, design language, and
-product revamps live here, separate from application code.
+Design workspace for **Mangu Platforms** — tokens, HTML drops, and product revamps. Not an application. Not Figma.
 
-## Drops
+> Apple calm × Instagram pulse. One thin vermilion hairline through everything.
 
-| Drop | What it is |
+## Open now
+
+| Artifact | Open |
 |---|---|
-| [Migration Mockups — Revamp 01](./design/migration-mockups/) | The five reference screens from `Migration_Planning.docx` rebuilt for Chambers in the Mangu look: Apple calm × Instagram pulse, one thin vermilion hairline through everything. |
+| Token source | [`tokens/tokens.json`](tokens/tokens.json) |
+| CSS variables | [`tokens/tokens.css`](tokens/tokens.css) |
+| Tailwind preset | [`tokens/tailwind.preset.cjs`](tokens/tailwind.preset.cjs) |
+| Drop template | [`design/drops/_template/index.html`](design/drops/_template/index.html) |
+| Resume sheet (Enhancv-class paper) | [`design/drops/resume-sheet/index.html`](design/drops/resume-sheet/index.html) |
+| Original five-screen deck | [`design/migration-mockups/chambers-migration-mockups.html`](design/migration-mockups/chambers-migration-mockups.html) |
 
-## Viewing
+No build. No JavaScript on drops. System fonts only.
 
-Each drop is self-contained. Open
-[`design/migration-mockups/chambers-migration-mockups.html`](./design/migration-mockups/chambers-migration-mockups.html)
-in any browser — no build step, no external assets. Static PNG exports of
-every screen sit alongside in `exports/`.
+## Tokens (quick)
 
-The design tokens (palette, hairline spec, type, components) are documented
-inside the deck itself and in each drop's README.
+| Token | Value |
+|---|---|
+| Vermilion 500 | `#FF4D00` |
+| Ember 600 | `#D93F00` (AA on white) |
+| Ink / Night | `#1D1D1F` / `#0B0B0F` |
+| Fog / Cream | `#F5F5F7` / `#FFFAF6` |
+| Hairline | `1px rgba(255,77,0,.32)` |
+| Selected | `1.5px` vermilion — the only thicker line |
+| Story | `#FFC24B → #FF5A1F → #E9308F → #8A3FFC` |
+
+## Docs
+
+- [Inventory](docs/INVENTORY.md)
+- [PRD](docs/PRD.md)
+- [Competitors](docs/COMPETITORS.md)
+- [Consume in apps](docs/CONSUME.md)
+- [Prosperity](docs/PROSPERITY.md)
+
+`chambers-ai` is the resume product. This repo is the language it should speak.
