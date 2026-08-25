@@ -45,3 +45,10 @@ Task #1: write design/drops/tokens-gallery/index.html + docs/TOKENS.md, commit.
 - C-001: Studio scaffold complete. typecheck+lint+build green; 25/25 vitest pass. CI workflow
   (studio-ci.yml: app checks + drops budget), docs (QUESTIONS, READMEs, competitor matrix,
   monetization) done. Next: push, draft PR, then runtime smoke test via dev server.
+
+- C-002: Draft PR #1 open (Mangu-Platforms/chambers#1), subscribed to activity. E2E: 7/7 pass
+  against prod build in demo mode (preinstalled chromium via executablePath). Runtime smoke: all
+  routes 200/404 as designed; print PDF verified clean (text layer, letter, no chrome). Mobile
+  390px verified. Screenshots + PDF delivered to owner. ADR-002 (demo mode), ADR-003 (export).
+  Evidence: scratchpad/01..07 png+pdf. Next: verify PR CI green; consider Vercel preview; hourly
+  check-in loop until 2026-08-26 13:00.
