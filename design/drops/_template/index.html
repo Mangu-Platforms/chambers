@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chambers drop template</title>
+  <link rel="stylesheet" href="../../../tokens/tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--ch-fog); color: var(--ch-ink); font-family: var(--ch-sans); }
+    body { min-height: 100vh; }
+    .wrap { max-width: var(--ch-page-max); margin: 0 auto; padding: var(--ch-space-8) var(--ch-space-5); }
+    h1 { font-family: var(--ch-display); font-size: var(--ch-size-hero); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-display); line-height: var(--ch-lead-display); margin: var(--ch-space-4) 0 var(--ch-space-3); }
+    p { font-size: var(--ch-size-lead); line-height: var(--ch-lead-body); letter-spacing: var(--ch-track-body); color: var(--ch-muted); max-width: 36em; }
+    .card { background: var(--ch-paper); border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-lg); padding: var(--ch-space-6); box-shadow: var(--ch-shadow-soft); }
+    .pill { display: inline-flex; align-items: center; height: var(--ch-chip-h); padding: 0 12px; border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-pill); font-size: var(--ch-size-caption); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ch-vermilion-600); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; height: var(--ch-btn-h); padding: 0 22px; border-radius: var(--ch-radius-pill); border: var(--ch-hairline) solid var(--ch-line); background: var(--ch-ink); color: var(--ch-paper); font-weight: var(--ch-weight-medium); text-decoration: none; }
+    .story { height: 4px; border-radius: var(--ch-radius-pill); background: var(--ch-story); margin-top: var(--ch-space-6); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <span class="pill">Chambers drop</span>
+    <h1>Name the surface.</h1>
+    <p>Copy this folder. Keep CSS variables. Ban client JavaScript unless you can prove first meaningful paint stays under 200ms on a cheap laptop.</p>
+    <div class="card" style="margin-top:32px">
+      <p style="margin:0;color:var(--ch-ink)">One vermilion hairline on every card. SF stack. Quiet paper. Pulse only in the story rail.</p>
+    </div>
+    <p style="margin-top:32px"><a class="btn" href="../../../README.md">Back to system</a></p>
+    <div class="story"></div>
+  </div>
+</body>
+</html>

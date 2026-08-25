@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chambers · Resume sheet</title>
+  <link rel="stylesheet" href="../../../tokens/tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { min-height: 100vh; background: var(--ch-fog); color: var(--ch-ink); font-family: var(--ch-sans); }
+    .stage { max-width: 1080px; margin: 0 auto; padding: var(--ch-space-7) var(--ch-space-5) var(--ch-space-9); }
+    .meta { display: flex; justify-content: space-between; align-items: baseline; gap: var(--ch-space-4); margin-bottom: var(--ch-space-5); }
+    .kicker { font-size: var(--ch-size-caption); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ch-vermilion-600); font-weight: var(--ch-weight-medium); }
+    .hint { font-size: var(--ch-size-meta); color: var(--ch-muted); }
+    .sheet { width: 100%; max-width: var(--ch-page-resume); margin: 0 auto; background: var(--ch-paper); border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-lg); box-shadow: var(--ch-shadow-soft); padding: 56px 56px 64px; }
+    .name { font-family: var(--ch-display); font-size: 42px; font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-display); line-height: var(--ch-lead-display); margin: 0 0 8px; }
+    .role { font-size: var(--ch-size-lead); color: var(--ch-muted); letter-spacing: var(--ch-track-body); margin: 0 0 18px; }
+    .contact { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: var(--ch-size-meta); color: var(--ch-muted); margin-bottom: 28px; }
+    .rule { height: var(--ch-hairline); background: var(--ch-line); border: 0; margin: 0 0 28px; }
+    h2 { font-size: var(--ch-size-caption); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ch-vermilion-600); font-weight: var(--ch-weight-semibold); margin: 0 0 14px; }
+    .job { margin-bottom: 22px; }
+    .job-top { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; }
+    .job h3 { margin: 0; font-size: var(--ch-size-body); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-tight); }
+    .when { font-size: var(--ch-size-meta); color: var(--ch-muted); white-space: nowrap; }
+    .org { font-size: var(--ch-size-meta); color: var(--ch-muted); margin: 2px 0 8px; }
+    ul { margin: 0; padding-left: 1.1em; }
+    li { font-size: var(--ch-size-body); line-height: var(--ch-lead-body); letter-spacing: var(--ch-track-body); margin-bottom: 4px; }
+    .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { height: var(--ch-chip-h); display: inline-flex; align-items: center; padding: 0 11px; border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-pill); font-size: var(--ch-size-caption); }
+    footer.note { max-width: var(--ch-page-resume); margin: 20px auto 0; font-size: var(--ch-size-meta); color: var(--ch-muted); text-align: center; }
+    @media (max-width: 720px) {
+      .sheet { padding: 32px 22px 40px; }
+      .name { font-size: 32px; }
+      .grid { grid-template-columns: 1fr; }
+      .meta { flex-direction: column; }
+    }
+    @media print {
+      body { background: #fff; }
+      .meta, footer.note { display: none; }
+      .sheet { border: 0; box-shadow: none; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="meta">
+      <div class="kicker">Chambers drop · Resume sheet</div>
+      <div class="hint">Enhancv-class paper. Apple type. One hairline. No JavaScript.</div>
+    </div>
+    <article class="sheet">
+      <h1 class="name">Avery Lang</h1>
+      <p class="role">Editorial systems · book operations · product design</p>
+      <div class="contact">
+        <span>Newark / remote</span>
+        <span>avery@mangu.example</span>
+        <span>portfolio on request</span>
+      </div>
+      <hr class="rule" />
+      <h2>Selected work</h2>
+      <div class="job">
+        <div class="job-top">
+          <h3>Operating lead, independent press</h3>
+          <span class="when">2023 — present</span>
+        </div>
+        <div class="org">Mangu Platforms</div>
+        <ul>
+          <li>Shipped a reader storefront and production board used on live titles.</li>
+          <li>Defined the house visual language now consumed as Chambers tokens.</li>
+          <li>Cut typesetting-to-EPUB cycle by replacing one-off InDesign rituals with a checked pipeline.</li>
+        </ul>
+      </div>
+      <div class="job">
+        <div class="job-top">
+          <h3>Studio producer</h3>
+          <span class="when">2019 — 2023</span>
+        </div>
+        <div class="org">House audio &amp; print</div>
+        <ul>
+          <li>Ran chapter QC, narrator selection, and ACX-safe mastering profiles.</li>
+        </ul>
+      </div>
+      <hr class="rule" />
+      <div class="grid">
+        <div>
+          <h2>Education</h2>
+          <div class="job">
+            <h3>B.A., Literature</h3>
+            <div class="org">Placeholder — replace with facts only</div>
+          </div>
+        </div>
+        <div>
+          <h2>Tools</h2>
+          <div class="chips">
+            <span class="chip">InDesign</span>
+            <span class="chip">EPUB 3</span>
+            <span class="chip">Supabase</span>
+            <span class="chip">Next.js</span>
+            <span class="chip">Piper / ffmpeg</span>
+          </div>
+        </div>
+      </div>
+    </article>
+    <footer class="note">Placeholder copy. CV-City / chambers-ai consume this sheet. Print this file for a letter-width PDF.</footer>
+  </div>
+</body>
+</html>
