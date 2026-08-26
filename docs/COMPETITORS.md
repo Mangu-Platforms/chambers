@@ -27,3 +27,25 @@ Industry line: Tokens Studio (define) → DTCG JSON → Style Dictionary (build)
 ## Paint budget
 
 HTML < 20KB. tokens.css < 4KB. Zero webfonts. Zero JS. That beats Notion kits and Storybook docs on Lane A.
+
+---
+
+# Resume-platform tear-down (Chambers Studio)
+
+Scored 2026-08. Pricing is the advertised monthly tier at time of writing; verify before quoting.
+
+| Platform | Pricing | Strengths | Weaknesses | Chambers answer |
+|---|---|---|---|---|
+| Enhancv | ~$25/mo (Pro) | Polished templates, content suggestions | Cluttered editor, slow preview, upsell pressure everywhere | Instant same-sheet preview, zero upsell chrome |
+| Teal | Free + ~$29/mo | Job tracker + resume in one | Resume quality secondary to tracking CRM | One purpose: the sheet itself |
+| Rezi | ~$29/mo or lifetime | ATS scoring, AI-first | Dated UI, AI writes generic prose | Apple-grade type; AI only rewrites on request, never auto |
+| Novoresume | ~$20/mo | Guided content | Feature maze, slow export | Edit → Preview → Export, three clicks |
+| Canva | Free + $13/mo | Beautiful freeform design | Not ATS-safe: text boxes, columns, graphics choke parsers | ATS text/DOCX are first-class exports |
+| FlowCV | Free + ~$8/mo | Generous free tier | Bloated option panels | Locked type scale — nothing to fiddle, nothing to break |
+| Standard Resume | ~$8/mo | Minimal, tasteful | Two templates, thin export options | Same calm + three templates + DOCX/TXT/PDF |
+| Reactive Resume | Free OSS | Self-hostable, capable | No design system; utilitarian output | A real design language and print parity |
+| Google Docs | Free | Universal, familiar | Manual layout, fragile spacing, no ATS path | Structured data → every format stays consistent |
+
+**The one real advantage:** the preview *is* the export. One sheet component renders the editor
+preview, the public share page, and the print CSS that becomes the PDF — pixel-for-pixel, powered
+by the same tokens as the zero-JS drop. No competitor renders screen and paper from one source.

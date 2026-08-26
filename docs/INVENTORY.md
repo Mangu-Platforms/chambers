@@ -1,4 +1,4 @@
-# Chambers inventory — 2026-08-25
+# Chambers inventory — 2026-08-25 (rev 2: studio build session)
 
 ## What was already on disk
 
@@ -26,7 +26,25 @@ Source: `Migration_Planning.docx` resume-builder screens rebuilt as Chambers / V
 | `docs/PROSPERITY.md` | Cash honesty |
 | `docs/CONSUME.md` | How apps import tokens |
 
+## Added this session (studio build)
+
+| Path | Role |
+|---|---|
+| `design/drops/tokens-gallery/` | Every token on one page, no JS |
+| `docs/TOKENS.md` | Token reference + usage rules |
+| `docs/adr/ADR-001-product-home.md` | Product lives in `apps/studio` |
+| `apps/studio/` | Chambers Studio — Next.js 15 resume product |
+| `CLAUDE.md` / `.plan/` | Execution charter + state for long runs |
+
+## Findings
+
+- `chambers-ai` inspected 2026-08-25: three-file stub (README, bare package.json, one landing
+  page without Chambers tokens). Product built here instead — see ADR-001.
+- `.github/workflows/main.yml` is a scheduled aider "swarm" workflow requiring an
+  `OPENAI_API_KEY` secret; unrelated to this build. Left in place — flagged in `docs/QUESTIONS.md`.
+
 ## Not this repo
 
-- `chambers-ai` — resume product. Consumes these tokens.
 - Figma multiplayer canvas. Out of lane.
+- `cv-fall2026` — owner's real CV facts. Loaded into the product only when the owner provides it;
+  sample data stays clearly fake ("Avery Lang").

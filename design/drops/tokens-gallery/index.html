@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chambers · Tokens gallery</title>
+  <link rel="stylesheet" href="../../../tokens/tokens.css" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--ch-fog); color: var(--ch-ink); font-family: var(--ch-sans); }
+    .stage { max-width: var(--ch-page-max); margin: 0 auto; padding: var(--ch-space-7) var(--ch-space-5) var(--ch-space-9); }
+    .kicker { font-size: var(--ch-size-caption); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ch-vermilion-600); font-weight: var(--ch-weight-medium); margin-bottom: var(--ch-space-2); }
+    h1 { font-family: var(--ch-display); font-size: var(--ch-size-display); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-display); line-height: var(--ch-lead-display); margin: 0 0 var(--ch-space-2); }
+    .lede { font-size: var(--ch-size-lead); color: var(--ch-muted); letter-spacing: var(--ch-track-body); margin: 0 0 var(--ch-space-7); }
+    section { margin-bottom: var(--ch-space-7); }
+    h2 { font-size: var(--ch-size-caption); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ch-vermilion-600); font-weight: var(--ch-weight-semibold); margin: 0 0 var(--ch-space-4); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--ch-space-4); }
+    .card { background: var(--ch-paper); border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-md); overflow: hidden; box-shadow: var(--ch-shadow-soft); }
+    .swatch { height: 84px; }
+    .card dl { margin: 0; padding: var(--ch-space-3) var(--ch-space-4); }
+    .card dt { font-size: var(--ch-size-meta); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-tight); }
+    .card dd { margin: 2px 0 0; font-family: var(--ch-mono); font-size: var(--ch-size-caption); color: var(--ch-muted); }
+    .on-dark { color: var(--ch-fog); }
+    table { width: 100%; border-collapse: collapse; background: var(--ch-paper); border: var(--ch-hairline) solid var(--ch-line); border-radius: var(--ch-radius-md); overflow: hidden; box-shadow: var(--ch-shadow-soft); }
+    th, td { text-align: left; padding: var(--ch-space-3) var(--ch-space-4); border-bottom: var(--ch-hairline) solid var(--ch-line); font-size: var(--ch-size-body); letter-spacing: var(--ch-track-body); }
+    th { font-size: var(--ch-size-caption); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ch-muted); font-weight: var(--ch-weight-medium); }
+    tr:last-child td { border-bottom: 0; }
+    td code { font-family: var(--ch-mono); font-size: var(--ch-size-meta); color: var(--ch-muted); }
+    .type-caption { font-size: var(--ch-size-caption); }
+    .type-meta { font-size: var(--ch-size-meta); }
+    .type-body { font-size: var(--ch-size-body); }
+    .type-lead { font-size: var(--ch-size-lead); }
+    .type-title { font-size: var(--ch-size-title); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-tight); }
+    .type-display { font-family: var(--ch-display); font-size: var(--ch-size-display); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-display); }
+    .type-hero { font-family: var(--ch-display); font-size: var(--ch-size-hero); font-weight: var(--ch-weight-semibold); letter-spacing: var(--ch-track-display); line-height: var(--ch-lead-display); }
+    .bars .bar { background: var(--ch-paper); border: var(--ch-hairline) solid var(--ch-line); margin-bottom: var(--ch-space-3); display: flex; align-items: center; padding: 0 var(--ch-space-4); font-size: var(--ch-size-meta); color: var(--ch-muted); }
+    .r-sm { border-radius: var(--ch-radius-sm); height: 44px; }
+    .r-md { border-radius: var(--ch-radius-md); height: 44px; }
+    .r-lg { border-radius: var(--ch-radius-lg); height: 56px; }
+    .r-pill { border-radius: var(--ch-radius-pill); height: 44px; }
+    .hair-demo { display: grid; gap: var(--ch-space-4); }
+    .hair-demo .line { height: var(--ch-hairline); background: var(--ch-line); }
+    .hair-demo .line-strong { height: var(--ch-hairline); background: var(--ch-line-strong); }
+    .hair-demo .selected { height: 56px; background: var(--ch-paper); border: var(--ch-hairline-selected) solid var(--ch-vermilion-500); border-radius: var(--ch-radius-md); display: flex; align-items: center; padding: 0 var(--ch-space-4); font-size: var(--ch-size-meta); }
+    .space-row { display: flex; align-items: flex-end; gap: var(--ch-space-3); }
+    .space-row .block { background: var(--ch-vermilion-500); opacity: 0.85; width: 28px; border-radius: 3px 3px 0 0; }
+    .space-row .lab { font-family: var(--ch-mono); font-size: var(--ch-size-caption); color: var(--ch-muted); text-align: center; margin-top: 4px; }
+    .shadow-demo { height: 96px; background: var(--ch-paper); border-radius: var(--ch-radius-md); box-shadow: var(--ch-shadow-soft); display: flex; align-items: center; justify-content: center; font-size: var(--ch-size-meta); color: var(--ch-muted); }
+    footer.note { margin-top: var(--ch-space-7); font-size: var(--ch-size-meta); color: var(--ch-muted); }
+    @media print { body { background: #fff; } .card, table, .shadow-demo { box-shadow: none; } }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="kicker">Chambers drop · Tokens gallery</div>
+    <h1>Every token, on paper</h1>
+    <p class="lede">The complete Chambers language. If a value is not on this page, it is not in the system.</p>
+
+    <section>
+      <h2>Color</h2>
+      <div class="grid">
+        <div class="card"><div class="swatch" style="background:#ff4d00"></div><dl><dt>Vermilion 500</dt><dd>#FF4D00 · --ch-vermilion-500</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#c63a00"></div><dl><dt>Ember 600</dt><dd>#C63A00 · AA on white</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#1d1d1f"></div><dl><dt>Ink</dt><dd>#1D1D1F · --ch-ink</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#0b0b0f"></div><dl><dt>Night</dt><dd>#0B0B0F · --ch-night</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#f5f5f7"></div><dl><dt>Fog</dt><dd>#F5F5F7 · --ch-fog</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#fffaf6"></div><dl><dt>Cream</dt><dd>#FFFAF6 · --ch-cream</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#ffffff;border-bottom:1px solid rgba(255,77,0,.32)"></div><dl><dt>Paper</dt><dd>#FFFFFF · --ch-paper</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:#6e6e73"></div><dl><dt>Muted</dt><dd>#6E6E73 · --ch-muted</dd></dl></div>
+        <div class="card"><div class="swatch" style="background:var(--ch-story)"></div><dl><dt>Story gradient</dt><dd>#FFC24B → #FF5A1F → #E9308F → #8A3FFC</dd></dl></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Hairline — the one line</h2>
+      <div class="hair-demo">
+        <div class="line"></div>
+        <div class="line-strong"></div>
+        <div class="selected">Selected — 1.5px vermilion. The only thicker line in the system.</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Type scale</h2>
+      <table>
+        <tr><th>Token</th><th>Sample</th><th>Value</th></tr>
+        <tr><td><code>--ch-size-hero</code></td><td class="type-hero">Aa</td><td><code>56px · display · -0.035em</code></td></tr>
+        <tr><td><code>--ch-size-display</code></td><td class="type-display">Calm is the feature</td><td><code>34px</code></td></tr>
+        <tr><td><code>--ch-size-title</code></td><td class="type-title">Section title</td><td><code>22px · -0.02em</code></td></tr>
+        <tr><td><code>--ch-size-lead</code></td><td class="type-lead">A lead line under the display.</td><td><code>17px</code></td></tr>
+        <tr><td><code>--ch-size-body</code></td><td class="type-body">Body copy, 1.47 line height, -0.011em tracking.</td><td><code>15px</code></td></tr>
+        <tr><td><code>--ch-size-meta</code></td><td class="type-meta">Meta and timestamps</td><td><code>12px</code></td></tr>
+        <tr><td><code>--ch-size-caption</code></td><td class="type-caption">CAPTION / KICKER</td><td><code>11px</code></td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Spacing</h2>
+      <div class="space-row">
+        <div><div class="block" style="height:4px"></div><div class="lab">1</div></div>
+        <div><div class="block" style="height:8px"></div><div class="lab">2</div></div>
+        <div><div class="block" style="height:12px"></div><div class="lab">3</div></div>
+        <div><div class="block" style="height:16px"></div><div class="lab">4</div></div>
+        <div><div class="block" style="height:24px"></div><div class="lab">5</div></div>
+        <div><div class="block" style="height:32px"></div><div class="lab">6</div></div>
+        <div><div class="block" style="height:48px"></div><div class="lab">7</div></div>
+        <div><div class="block" style="height:64px"></div><div class="lab">8</div></div>
+        <div><div class="block" style="height:96px"></div><div class="lab">9</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Radius</h2>
+      <div class="bars">
+        <div class="bar r-sm">sm · 8px</div>
+        <div class="bar r-md">md · 14px</div>
+        <div class="bar r-lg">lg · 22px</div>
+        <div class="bar r-pill">pill · 999px</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Elevation &amp; motion</h2>
+      <div class="grid">
+        <div class="shadow-demo">shadow-soft · 0 8px 24px rgba(29,29,31,.06)</div>
+        <div class="shadow-demo" style="box-shadow:none;border:1px solid rgba(255,77,0,.32)">flat + hairline</div>
+      </div>
+      <p class="type-meta" style="color:var(--ch-muted);margin-top:12px">Motion: 240ms, cubic-bezier(.25,.1,.25,1). Reduced motion collapses to 1ms.</p>
+    </section>
+
+    <section>
+      <h2>Controls</h2>
+      <table>
+        <tr><th>Token</th><th>Value</th><th>Rule</th></tr>
+        <tr><td><code>--ch-btn-h</code></td><td><code>44px</code></td><td>Minimum hit target. Pill CTAs.</td></tr>
+        <tr><td><code>--ch-field-h</code></td><td><code>44px</code></td><td>All inputs.</td></tr>
+        <tr><td><code>--ch-chip-h</code></td><td><code>28px</code></td><td>Skill chips, tags.</td></tr>
+        <tr><td><code>--ch-page-resume</code></td><td><code>816px</code></td><td>US letter at 96dpi.</td></tr>
+        <tr><td><code>--ch-page-max</code></td><td><code>1120px</code></td><td>App shell width.</td></tr>
+      </table>
+    </section>
+
+    <footer class="note">Zero JavaScript. System fonts. Source of truth: <code>tokens/tokens.json</code>.</footer>
+  </div>
+</body>
+</html>
