@@ -64,3 +64,9 @@ Task #1: write design/drops/tokens-gallery/index.html + docs/TOKENS.md, commit.
   git-linked to Mangu-Platforms/chambers, rootDirectory apps/studio, link-only (no deploy from
   main — app not there yet). This push triggers first branch preview. Existing chambers-ai Vercel
   project untouched.
+
+- C-005 (00:35Z): Vercel preview build failed on pnpm supply-chain policy (minimumReleaseAge:
+  next@15.5.24 + rollup@4.63.0 published <24h before build). Compliant fix, not a bypass:
+  .npmrc minimum-release-age=1440 in apps/studio, next pinned 15.5.23, rollup override 4.62.5,
+  lockfile regenerated. Full gate green again (typecheck/lint/25 unit/build/13 e2e). Pushing —
+  triggers CI + fresh Vercel preview.
