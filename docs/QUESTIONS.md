@@ -11,10 +11,11 @@ changed.
    `apps/studio/.env.example`, and auth/persistence switch on automatically. Until then every
    deployment runs in demo mode (browser-local documents) — intentional, so previews work with
    zero secrets. Want me to provision the project via the Supabase integration next session?
-2. **Vercel.** No Vercel project exists for this repo in the session's scope. Import the repo in
-   Vercel with root directory `apps/studio` (build: `pnpm build`) — or tell me to create it via the
-   Vercel integration, and whether staging should be a separate branch (`staging`) or just Vercel
-   previews on PRs.
+2. **Vercel.** ~~Resolved 2026-08-26:~~ project **`chambers-studio`** now exists, linked to this
+   repo with root directory `apps/studio`. Every push deploys a preview; production deploys from
+   `main` — i.e. only after you merge the PR. Your pre-existing unlinked `chambers-ai` Vercel
+   project was left untouched. Remaining decision: keep previews-as-staging, or add a dedicated
+   `staging` branch?
 3. **`chambers-ai` repo.** Product code went into `chambers/apps/studio` (ADR-001) because
    `chambers-ai` is a 3-file stub and this session could only push to `chambers`. Keep it that way,
    or should the app be extracted to `chambers-ai` later?

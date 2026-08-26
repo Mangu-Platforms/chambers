@@ -59,3 +59,8 @@ Task #1: write design/drops/tokens-gallery/index.html + docs/TOKENS.md, commit.
   →600. 13/13 e2e, 25/25 unit, typecheck+lint clean. Gotcha logged: orphaned next-server on 3200
   serves stale chunks → kill by PID before e2e locally. Next: Vercel preview deploy attempt,
   perf sanity, re-arm check-in.
+
+- C-004 (00:25Z): Vercel project chambers-studio created (prj_aUbhsmMC0RM6T7CySdeisibycdeT),
+  git-linked to Mangu-Platforms/chambers, rootDirectory apps/studio, link-only (no deploy from
+  main — app not there yet). This push triggers first branch preview. Existing chambers-ai Vercel
+  project untouched.
