@@ -16,7 +16,7 @@ import { cleanLine, cleanUrl, displayUrl } from "@/lib/resume/sanitize";
  */
 
 const INK = "1D1D1F";
-const EMBER = "D93F00";
+const EMBER = "C63A00";
 const MUTED = "6E6E73";
 
 const RIGHT_TAB = 10800; // ~7.5in in twips — right-aligned dates

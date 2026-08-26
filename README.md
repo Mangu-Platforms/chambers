@@ -26,11 +26,11 @@ Studio: Next.js 15 + Supabase (or zero-secret demo mode), consuming these tokens
 | Token | Value |
 |---|---|
 | Vermilion 500 | `#FF4D00` |
-| Ember 600 | `#D93F00` (AA on white) |
+| Ember 600 | `#C63A00` (AA on white) |
 | Ink / Night | `#1D1D1F` / `#0B0B0F` |
 | Fog / Cream | `#F5F5F7` / `#FFFAF6` |
 | Hairline | `1px rgba(255,77,0,.32)` |
-| Selected | `1.5px` vermilion — the only thicker line |
+| Selected | `1.5px` ember — the only thicker line |
 | Story | `#FFC24B → #FF5A1F → #E9308F → #8A3FFC` |
 
 ## Docs

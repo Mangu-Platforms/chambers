@@ -11,7 +11,7 @@ token, zero JS.
 | Token | Value | Use |
 |---|---|---|
 | `vermilion.500` | `#FF4D00` | The accent. Hairlines, selection, kickers on dark. Never body text on white. |
-| `vermilion.600` (Ember) | `#D93F00` | Orange **text** on white — AA contrast. Kickers, section labels. |
+| `vermilion.600` (Ember) | `#C63A00` | Orange **text** on white — AA contrast. Kickers, section labels. |
 | `ink` | `#1D1D1F` | Body text on light. |
 | `night` | `#0B0B0F` | Dark surfaces (marketing footer, hero). |
 | `fog` | `#F5F5F7` | App background, quiet sections. |
@@ -25,8 +25,8 @@ token, zero JS.
 ## Rules that make it Chambers
 
 1. **One hairline.** Every border is `1px rgba(255,77,0,.32)`. The only thicker line in the
-   system is the selected state: `1.5px` solid vermilion.
-2. **Ember for orange text.** `#FF4D00` fails AA on white; `#D93F00` passes. Text is Ember,
+   system is the selected state: `1.5px` solid Ember (the 3:1 non-text contrast line).
+2. **Ember for orange text.** `#FF4D00` fails AA on white; `#C63A00` passes. Text is Ember,
    surfaces and lines are Vermilion.
 3. **Zero webfonts.** SF Pro / system stack (`-apple-system, BlinkMacSystemFont, Segoe UI…`).
    Weights 400 / 510 / 590 / 700.

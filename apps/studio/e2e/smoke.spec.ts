@@ -37,7 +37,7 @@ test("editing flows into the live preview instantly", async ({ page }) => {
   await expect(page.locator(".sheet-role")).toHaveText("Quality engineer");
 
   // Template switch keeps content and marks selection.
-  await page.getByRole("radio", { name: "Executive" }).click();
+  await page.getByRole("button", { name: "Executive" }).click();
   await expect(page.locator("article.sheet")).toHaveAttribute("data-template", "executive");
   await expect(page.locator(".sheet-name")).toHaveText("Test Candidate");
 });

@@ -39,3 +39,9 @@ changed.
 
 9. Marketing copy tone ("One page. Perfectly set.") — keep or rewrite?
 10. Should public share pages (`/s/[slug]`) be indexable? Currently `noindex` for privacy.
+
+11. **Ember deepened for AA.** Automated accessibility testing (axe) showed the PRD's Ember
+    `#D93F00` is only 4.15:1 on white — it fails WCAG AA (4.5:1) at the 11–12px sizes we use for
+    kickers and section labels, and white button text on it fails too. Ember is now `#C63A00`
+    (5.2:1, passes at every size, white-on-Ember passes) across tokens, drops, app and DOCX
+    export. Visually ~5% deeper. Veto if you want the brighter value back at the cost of AA.

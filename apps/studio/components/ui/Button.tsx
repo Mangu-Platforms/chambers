@@ -14,7 +14,7 @@ const base =
   "inline-flex h-11 items-center justify-center gap-2 rounded-pill px-6 text-body font-medium tracking-body transition-colors duration-200 select-none disabled:opacity-40 disabled:pointer-events-none";
 
 const looks: Record<Variant, string> = {
-  primary: "bg-vermilion-500 text-white hover:bg-vermilion-600",
+  primary: "bg-vermilion-600 text-white hover:brightness-95",
   quiet: "bg-white text-ink border border-line hover:border-[rgba(255,77,0,0.72)]",
   ghost: "text-vermilion-600 hover:bg-white",
 };

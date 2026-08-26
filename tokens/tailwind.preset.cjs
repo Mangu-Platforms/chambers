@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        vermilion: { 500: '#FF4D00', 600: '#D93F00' },
+        vermilion: { 500: '#FF4D00', 600: '#C63A00' },
         ink: '#1D1D1F',
         night: '#0B0B0F',
         fog: '#F5F5F7',

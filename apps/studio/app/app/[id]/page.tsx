@@ -78,16 +78,15 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
 
       <div className="no-print border-b border-line bg-white">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 px-4 py-2.5 md:px-6">
-          <div className="flex items-center gap-1" role="radiogroup" aria-label="Template">
+          <div className="flex items-center gap-1" role="group" aria-label="Template">
             {templateIds.map((t) => (
               <button
                 key={t}
-                role="radio"
-                aria-checked={doc.template === t}
+                aria-pressed={doc.template === t}
                 onClick={() => setTemplate(t)}
                 className={`h-9 rounded-pill px-4 text-meta font-medium transition-colors ${
                   doc.template === t
-                    ? "border-[1.5px] border-vermilion-500 text-ink"
+                    ? "border-[1.5px] border-vermilion-600 text-ink"
                     : "border border-line text-muted hover:text-ink"
                 }`}
               >
@@ -98,7 +97,7 @@ export default function EditorPage({ params }: { params: Promise<{ id: string }>
           <div className="flex items-center gap-2">
             <Link
               href={`/app/${doc.id}/export`}
-              className="inline-flex h-9 items-center rounded-pill bg-vermilion-500 px-5 text-meta font-medium text-white transition-colors hover:bg-vermilion-600"
+              className="inline-flex h-9 items-center rounded-pill bg-vermilion-600 px-5 text-meta font-medium text-white transition-[filter] hover:brightness-95"
             >
               Export
             </Link>

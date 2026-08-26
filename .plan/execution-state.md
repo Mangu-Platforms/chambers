@@ -52,3 +52,10 @@ Task #1: write design/drops/tokens-gallery/index.html + docs/TOKENS.md, commit.
   390px verified. Screenshots + PDF delivered to owner. ADR-002 (demo mode), ADR-003 (export).
   Evidence: scratchpad/01..07 png+pdf. Next: verify PR CI green; consider Vercel preview; hourly
   check-in loop until 2026-08-26 13:00.
+
+- C-003 (00:15Z): CI green on all 4 runs incl. head. A11y pass: axe suite added (5 surfaces gated
+  on serious/critical) + keyboard-walk test; template switcher radio→aria-pressed; Ember deepened
+  #D93F00→#C63A00 (AA at caption size; QUESTIONS #11); primary fills 500→600; selected border
+  →600. 13/13 e2e, 25/25 unit, typecheck+lint clean. Gotcha logged: orphaned next-server on 3200
+  serves stale chunks → kill by PID before e2e locally. Next: Vercel preview deploy attempt,
+  perf sanity, re-arm check-in.

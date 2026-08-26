@@ -31,7 +31,7 @@ function LoginForm() {
         <div className="mt-6">
           <Link
             href="/app"
-            className="inline-flex h-11 items-center rounded-pill bg-vermilion-500 px-6 text-body font-medium text-white transition-colors hover:bg-vermilion-600"
+            className="inline-flex h-11 items-center rounded-pill bg-vermilion-600 px-6 text-body font-medium text-white transition-[filter] hover:brightness-95"
           >
             Continue to the studio
           </Link>
