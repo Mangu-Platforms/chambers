@@ -13,7 +13,7 @@ The running product in this repo.
 ## Templates
 
 | Id | Look | ATS |
-|---|---|
+|---|---|---|
 | `letter` | House default, vermilion labels | high |
 | `compact` | Dense single column | high |
 | `executive` | Night header | medium |
