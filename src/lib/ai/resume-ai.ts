@@ -6,6 +6,11 @@ type Ok<T> = { ok: true } & T;
 type Err = { ok: false; error: string };
 type Result<T> = Ok<T> | Err;
 
+/**
+ * Optional remote assistant. The studio is local-first — every caller
+ * already falls back to parse / tailor / letter helpers in src/lib/resume.
+ * Wire a server proxy here if you want grok-4.5; never ship a browser key.
+ */
 export async function parseResumeAi(_input: {
   data: { text: string };
 }): Promise<Result<{ resume: Resume }>> {
