@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+@theme {
+  --color-vermilion: #ff4d00;
+  --color-ember: #d93f00;
+  --color-ink: #1d1d1f;
+  --color-night: #0b0b0f;
+  --color-night-2: #17171c;
+  --color-fog: #f5f5f7;
+  --color-cream: #fffaf6;
+  --color-paper: #ffffff;
+  --color-soft: #6e6e73;
+  --color-faint: #a1a1a6;
+  --color-hair: rgba(29, 29, 31, 0.08);
+  --color-hair-strong: rgba(29, 29, 31, 0.16);
+  --color-line-strong: rgba(255, 77, 0, 0.72);
+  --color-rule: rgba(255, 77, 0, 0.45);
+  --color-blush-soft: #fff3ec;
+
+  --font-sans: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    "Times New Roman", serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --text-micro: 0.6875rem;
+  --text-caption: 0.8125rem;
+  --text-body: 0.9375rem;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-chambers: 0 1px 2px rgba(29, 29, 31, 0.04), 0 12px 32px rgba(29, 29, 31, 0.06);
+  --shadow-pop: 0 0 0 1px rgba(29, 29, 31, 0.06), 0 1px 2px rgba(29, 29, 31, 0.04);
+  --shadow-lift: 0 0 0 1px rgba(29, 29, 31, 0.08), 0 8px 24px rgba(29, 29, 31, 0.08);
+
+  --max-width-page: 1120px;
+  --max-width-resume: 816px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    letter-spacing: -0.011em;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .kicker {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-ember);
+  }
+  .hairline {
+    border: 1px solid var(--color-hair);
+  }
+  .hairline-selected {
+    border: 1.5px solid var(--color-vermilion);
+  }
+  .sheet-root {
+    border: 1px solid var(--color-hair);
+    border-radius: var(--radius-lg);
+    contain: layout style;
+  }
+  .sheet-pad {
+    padding: 56px 56px 64px;
+  }
+  .sheet-root[data-template="compact"] .sheet-pad {
+    padding: 36px 40px 44px;
+  }
+  .sheet-root[data-template="editorial"] {
+    background: var(--color-cream);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .sheet-root[data-template="executive"] .exec-band,
+  .sheet-root[data-template="sidebar"] .sidebar-rail {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .letter-sheet {
+    border: 1px solid var(--color-hair);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-chambers);
+    background: var(--color-paper);
+    padding: 56px 56px 64px;
+    max-width: 816px;
+    contain: layout style;
+  }
+  .paper-thumb {
+    aspect-ratio: 8.5 / 11;
+    width: 100%;
+    background: var(--color-paper);
+    overflow: hidden;
+    contain: strict;
+  }
+  .job {
+    break-inside: avoid;
+  }
+  @media (max-width: 720px) {
+    .sheet-pad,
+    .letter-sheet {
+      padding: 32px 22px 40px;
+    }
+    .exec-band {
+      padding-left: 22px;
+      padding-right: 22px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+  .paper-stage-frame {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .paper-stage-inner {
+    position: static !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+  @page {
+    size: letter;
+    margin: 0.48in;
+  }
+}
