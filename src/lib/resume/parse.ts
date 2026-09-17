@@ -4,7 +4,9 @@ import type { EducationItem, ExperienceItem, Resume } from "./types";
 import { normalize } from "./text";
 
 const SECTION =
-  /^(summary|profile|objective|experience|work experience|employment|professional experience|education|skills|tools|projects|selected work|additional|certifications|awards)\s*:?$/i;
+  /^(summary|profile|objective|about|experience|work experience|work history|employment|professional experience|education|skills|technical skills|core competencies|tools|projects|selected work|additional|certifications|awards|languages|publications|volunteer)\s*:?$/i;
+
+const LINKEDIN_TYPE = /·\s*(full-?time|part-?time|contract|internship|freelance|self-employed)\b/i;
 
 export function parseResumeText(text: string): Resume {
   const lines = text
@@ -31,27 +33,54 @@ export function parseResumeText(text: string): Resume {
   );
   resume.identity.location = pickLocation(head);
 
-  const summaryBlock = blocks.summary ?? blocks.profile ?? blocks.objective;
+  const summaryBlock = blocks.summary ?? blocks.profile ?? blocks.objective ?? blocks.about;
   if (summaryBlock) resume.summary = summaryBlock.filter((l) => !SECTION.test(l)).join(" ").trim();
 
-  const expLines = blocks.experience ?? blocks["work experience"] ?? blocks.employment ?? [];
+  const expLines =
+    blocks.experience ??
+    blocks["work experience"] ??
+    blocks["work history"] ??
+    blocks.employment ??
+    blocks["professional experience"] ??
+    [];
   resume.experience = parseJobs(expLines);
 
-  resume.education = parseEducation(blocks.education ?? []);
-  resume.skills = parseSkills(blocks.skills ?? blocks.tools ?? [], text);
+  const eduLines = blocks.education ?? [];
+  resume.education = parseEducation(eduLines);
 
-  const extraSrc = blocks.projects ?? blocks.additional ?? blocks["selected work"];
+  const skillLines = blocks.skills ?? blocks.tools ?? blocks["technical skills"] ?? blocks["core competencies"] ?? [];
+  resume.skills = parseSkills(skillLines, text);
+
+  const extras: Resume["extras"] = [];
+  const extraSrc = blocks["selected work"] ?? blocks.projects ?? blocks.additional;
   if (extraSrc?.length) {
-    resume.extras = [
-      {
-        id: uid(),
-        label: "Selected work",
-        items: extraSrc.filter((l) => !SECTION.test(l)).map((l) => l.replace(/^[-\u2022]\s*/, "")),
-      },
-    ];
+    extras.push({
+      id: uid(),
+      label: "Selected work",
+      items: extraSrc.filter((l) => !SECTION.test(l)).map((l) => l.replace(/^[-•]\s*/, "")),
+    });
   }
+  const certs = blocks.certifications ?? blocks.awards;
+  if (certs?.length) {
+    extras.push({
+      id: uid(),
+      label: "Certifications",
+      items: certs.filter((l) => !SECTION.test(l)).map((l) => l.replace(/^[-•]\s*/, "")),
+    });
+  }
+  const langs = blocks.languages;
+  if (langs?.length) {
+    extras.push({
+      id: uid(),
+      label: "Languages",
+      items: langs.filter((l) => !SECTION.test(l)).map((l) => l.replace(/^[-•]\s*/, "")),
+    });
+  }
+  resume.extras = extras;
 
-  if (!resume.experience.length) resume.experience = parseJobs(lines.slice(3));
+  if (!resume.experience.length) {
+    resume.experience = parseJobs(lines.slice(3));
+  }
   if (!resume.summary) {
     const prose = lines.find((l) => l.length > 80 && !l.includes("@") && !SECTION.test(l));
     if (prose) resume.summary = prose;
@@ -76,7 +105,8 @@ function splitSections(lines: string[]): Record<string, string[]> {
 }
 
 function pickName(head: string[]): string {
-  return head.find((l) => l.length > 2 && l.length < 48 && !l.includes("@") && !/\d{3}/.test(l)) ?? "";
+  const line = head.find((l) => l.length > 2 && l.length < 48 && !l.includes("@") && !/\d{3}/.test(l));
+  return line ?? "";
 }
 
 function pickTitle(head: string[], name: string): string {
@@ -95,14 +125,13 @@ function pickTitle(head: string[], name: string): string {
 }
 
 function pickLocation(head: string[]): string {
-  return (
-    head.find(
-      (l) =>
-        /remote|york|newark|austin|francisco|boston|london|city|nj|ny|tx|ca/i.test(l) &&
-        !l.includes("@") &&
-        l.length < 60,
-    ) ?? ""
+  const line = head.find(
+    (l) =>
+      /remote|york|newark|austin|francisco|boston|london|city|nj|ny|tx|ca/i.test(l) &&
+      !l.includes("@") &&
+      l.length < 60,
   );
+  return line ?? "";
 }
 
 function pick(text: string, re: RegExp, filter?: (v: string) => string): string {
@@ -116,14 +145,32 @@ function parseJobs(lines: string[]): ExperienceItem[] {
   const jobs: ExperienceItem[] = [];
   let current: ExperienceItem | null = null;
   const dateRe = /(20\d{2}|19\d{2}|present)/i;
+  const linkedinDate =
+    /^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(20\d{2}|19\d{2})\s*[–—-]\s*(present|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(20\d{2}|19\d{2}))/i;
+
   const flush = () => {
     if (current && (current.role || current.org || current.bullets.length)) jobs.push(current);
     current = null;
   };
 
   for (const raw of lines) {
-    const line = raw.replace(/^[-\u2022\u25cf]\s*/, "");
+    const line = raw.replace(/^[-•●]\s*/, "");
     if (SECTION.test(line)) continue;
+
+    if (current && LINKEDIN_TYPE.test(line) && !current.org) {
+      current.org = line.split("·")[0]?.trim() ?? line;
+      continue;
+    }
+
+    const liDate = line.match(linkedinDate);
+    if (current && liDate && current.bullets.length === 0 && !current.start) {
+      current.start = liDate[1] ?? "";
+      current.end = /present/i.test(liDate[2] ?? "") ? "Present" : (liDate[3] ?? liDate[2] ?? "");
+      const loc = line.split("·")[1]?.trim();
+      if (loc && !/\d/.test(loc)) current.location = loc;
+      continue;
+    }
+
     const dated = dateRe.test(line) && line.length < 80;
     const looksRole =
       line.length < 90 &&
@@ -148,10 +195,18 @@ function parseJobs(lines: string[]): ExperienceItem[] {
       continue;
     }
     if (!current) {
-      current = { id: uid(), role: line, org: "", location: "", start: "", end: "", bullets: [] };
+      current = {
+        id: uid(),
+        role: line,
+        org: "",
+        location: "",
+        start: "",
+        end: "",
+        bullets: [],
+      };
       continue;
     }
-    if (line.length < 70 && !current.org && !/^[-\u2022]/.test(raw) && current.bullets.length === 0) {
+    if (line.length < 70 && !current.org && !/^[-•]/.test(raw) && current.bullets.length === 0) {
       current.org = line;
     } else {
       current.bullets.push(line);
@@ -161,7 +216,14 @@ function parseJobs(lines: string[]): ExperienceItem[] {
   return jobs.filter((j) => j.role || j.bullets.length);
 }
 
-function splitRoleLine(line: string) {
+function splitRoleLine(line: string): {
+  role: string;
+  org: string;
+  location: string;
+  start: string;
+  end: string;
+  rest: string;
+} {
   const datePart = line.match(
     /((?:20\d{2}|19\d{2})\s*[–—-]\s*(?:20\d{2}|19\d{2}|[Pp]resent)|(?:20\d{2}|19\d{2}|[Pp]resent))/,
   );
@@ -170,7 +232,7 @@ function splitRoleLine(line: string) {
   if (datePart) {
     const bits = datePart[1].split(/\s*[–—-]\s*/);
     start = bits[0] ?? "";
-    end = bits[1] ?? "";
+    end = bits[1] ?? (/\d{4}/.test(bits[0] ?? "") ? "" : bits[0] ?? "");
   }
   const withoutDates = line.replace(datePart?.[0] ?? "", "").replace(/[·|]/g, "—");
   const parts = withoutDates.split(/\s+[—–-]\s+/).map(normalize).filter(Boolean);
@@ -205,7 +267,7 @@ function parseSkills(lines: string[], full: string): string[] {
   const blob = (lines.length ? lines.join(" ") : "").trim();
   const source = blob || (full.match(/skills?\s*[:\n]([\s\S]{0,400})/i)?.[1] ?? "");
   const parts = source
-    .split(/[,;|\u2022\n]/)
+    .split(/[,;|•\n]/)
     .map((s) => s.replace(/^[-]\s*/, "").trim())
     .filter((s) => s.length > 1 && s.length < 40 && !SECTION.test(s));
   return [...new Set(parts)].slice(0, 24);

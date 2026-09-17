@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useResumeStore } from "@/lib/resume/store";
 
 export function useHydrated() {
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(() => useResumeStore.persist?.hasHydrated?.() ?? false);
   useEffect(() => {
     const api = useResumeStore.persist;
     const finish = () => {

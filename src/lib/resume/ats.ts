@@ -14,7 +14,8 @@ export function scoreAts(resume: Resume, jobDescription: string): AtsReport {
     (s) => !keywords.some((k) => k.toLowerCase() === s.toLowerCase()),
   );
 
-  const bullets = resume.experience.flatMap((j) => j.bullets).filter(Boolean);
+  const jobs = resume.experience;
+  const bullets = jobs.flatMap((j) => j.bullets).filter((b) => b.trim());
   const withVerb = bullets.filter(actionVerb).length;
   const withMetric = bullets.filter(hasMetric).length;
   const contactBits = [
@@ -22,6 +23,9 @@ export function scoreAts(resume: Resume, jobDescription: string): AtsReport {
     resume.identity.location,
     resume.identity.phone || resume.identity.website || resume.identity.linkedin,
   ].filter(Boolean).length;
+  const dated = jobs.filter((j) => j.start.trim()).length;
+  const hasEdu = resume.education.some((e) => e.school.trim() || e.degree.trim());
+  const coverRatio = keywords.length === 0 ? 1 : matched.length / keywords.length;
 
   const checks: AtsReport["checks"] = [
     {
@@ -67,16 +71,43 @@ export function scoreAts(resume: Resume, jobDescription: string): AtsReport {
     {
       id: "skills",
       label: "Skills the parser can list",
-      pass: resume.skills.length >= 6,
+      pass: resume.skills.filter(Boolean).length >= 6,
       detail:
-        resume.skills.length >= 6
-          ? `${resume.skills.length} skills, plain text.`
+        resume.skills.filter(Boolean).length >= 6
+          ? `${resume.skills.filter(Boolean).length} skills, plain text.`
           : "Add a flat skills list — parsers love it more than prose.",
+    },
+    {
+      id: "dates",
+      label: "Dated roles",
+      pass: jobs.length === 0 || dated / jobs.length >= 0.8,
+      detail:
+        jobs.length === 0
+          ? "Add at least one role with dates."
+          : `${dated}/${jobs.length} roles have a start date.`,
+    },
+    {
+      id: "education",
+      label: "Education listed",
+      pass: hasEdu,
+      detail: hasEdu ? "School or degree is parseable." : "Add a school or degree line.",
+    },
+    {
+      id: "keywords",
+      label: "Posting phrases",
+      pass: keywords.length === 0 || coverRatio >= 0.4,
+      detail:
+        keywords.length === 0
+          ? "Paste a posting to score phrase overlap."
+          : `${matched.length}/${keywords.length} posting phrases already in the sheet.`,
     },
   ];
 
-  const checkScore = Math.round((checks.filter((c) => c.pass).length / checks.length) * 40);
-  const cover = keywords.length === 0 ? 50 : Math.round((matched.length / keywords.length) * 60);
+  const checkScore = Math.round(
+    (checks.filter((c) => c.pass).length / checks.length) * 40,
+  );
+  const cover =
+    keywords.length === 0 ? 50 : Math.round((matched.length / keywords.length) * 60);
   const score = Math.max(12, Math.min(99, checkScore + cover));
 
   return { score, matched, missing, extras, checks };
@@ -88,3 +119,21 @@ export function scoreLabel(score: number): string {
   if (score >= 55) return "Close — tailor it";
   return "Rewrite against the posting";
 }
+
+export function reportAsText(report: AtsReport, name?: string): string {
+  const lines = [
+    name ? `ATS check — ${name}` : "ATS check",
+    `Score ${report.score} · ${scoreLabel(report.score)}`,
+    "",
+    "Checks",
+    ...report.checks.map((c) => `- ${c.pass ? "ok" : "open"} ${c.label}. ${c.detail}`),
+  ];
+  if (report.matched.length) {
+    lines.push("", `Present: ${report.matched.slice(0, 16).join(", ")}`);
+  }
+  if (report.missing.length) {
+    lines.push(`Not evidenced (do not invent): ${report.missing.slice(0, 16).join(", ")}`);
+  }
+  return lines.join("\n").trim() + "\n";
+}
+

@@ -5,7 +5,7 @@ export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElem
   return (
     <input
       className={cn(
-        "h-11 w-full rounded-md border border-hair bg-paper px-3.5 text-body text-ink tracking-[-0.011em] outline-none placeholder:text-faint focus:ring-2 focus:ring-vermilion/20",
+        "h-11 w-full rounded-md border border-hair bg-paper px-3.5 text-body text-ink tracking-[-0.011em] outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-hair-strong focus:ring-2 focus:ring-vermilion/20",
         className,
       )}
       {...props}
@@ -13,11 +13,14 @@ export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElem
   );
 }
 
-export function Textarea({ className, ...props }: TextareaHTMLAttributes<HTMLTextAreaElement>) {
+export function Textarea({
+  className,
+  ...props
+}: TextareaHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
       className={cn(
-        "min-h-24 w-full rounded-md border border-hair bg-paper px-3.5 py-3 text-body leading-[1.47] text-ink tracking-[-0.011em] outline-none placeholder:text-faint focus:ring-2 focus:ring-vermilion/20",
+        "min-h-24 w-full rounded-md border border-hair bg-paper px-3.5 py-3 text-body leading-[1.47] text-ink tracking-[-0.011em] outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:ring-2 focus:ring-vermilion/20",
         className,
       )}
       {...props}

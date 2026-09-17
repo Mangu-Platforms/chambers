@@ -29,10 +29,10 @@ export function PaperStage({
     const inner = innerRef.current;
     if (!frame || !inner) return;
     const next = fit ? Math.min(1, Math.max(0.35, frame.clientWidth / SHEET)) : 1;
-    const content = Math.max(inner.scrollHeight, inner.offsetHeight, 400);
+    const content = Math.max(inner.scrollHeight, inner.offsetHeight, PAGE);
     setScale(next);
     setHeight(content * next);
-    setOverflows(content > PAGE);
+    setOverflows(content > PAGE + 8);
   }, [fit]);
 
   useLayoutEffect(() => {
@@ -79,8 +79,11 @@ export function PaperStage({
         >
           {children}
           {overflows ? (
-            <div className="no-print pointer-events-none absolute inset-x-0 z-10 border-t border-dashed border-vermilion/50" style={{ top: PAGE }}>
-              <span className="absolute right-2 -top-2.5 bg-fog px-1.5 text-[10px] font-semibold text-ember">
+            <div
+              className="no-print pointer-events-none absolute inset-x-3 z-10 border-t border-dashed border-vermilion/50"
+              style={{ top: PAGE }}
+            >
+              <span className="absolute right-0 -top-2.5 rounded-pill bg-fog px-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-ember">
                 Page 2
               </span>
             </div>
@@ -94,12 +97,57 @@ export function PaperStage({
 function FitToggle({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void }) {
   return (
     <div className="flex w-fit rounded-pill border border-hair p-0.5">
-      <button type="button" onClick={() => onFit(true)} className={cn("h-8 rounded-pill px-3 text-caption font-semibold", fit ? "bg-ink text-paper" : "text-soft")}>
+      <button
+        type="button"
+        onClick={() => onFit(true)}
+        className={`h-8 rounded-pill px-3 text-caption font-semibold ${fit ? "bg-ink text-paper" : "text-soft"}`}
+      >
         Fit
       </button>
-      <button type="button" onClick={() => onFit(false)} className={cn("h-8 rounded-pill px-3 text-caption font-semibold", !fit ? "bg-ink text-paper" : "text-soft")}>
+      <button
+        type="button"
+        onClick={() => onFit(false)}
+        className={`h-8 rounded-pill px-3 text-caption font-semibold ${!fit ? "bg-ink text-paper" : "text-soft"}`}
+      >
         100%
       </button>
+    </div>
+  );
+}
+
+function LetterChrome({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void }) {
+  const letter = useResumeStore((s) => s.letter);
+  const resume = useResumeStore((s) => s.resume);
+
+  const copy = async () => {
+    const ok = await copyText(letterAsText(letter, resume.identity.name));
+    toast[ok ? "success" : "error"](ok ? "Copied letter" : "Could not copy");
+  };
+
+  const download = () => {
+    const name = (resume.identity.name || "letter").toLowerCase().replace(/\s+/g, "-");
+    downloadText(`${name}-letter.txt`, letterAsText(letter, resume.identity.name));
+  };
+
+  return (
+    <div className="no-print mb-4 flex flex-wrap items-center gap-2">
+      <FitToggle fit={fit} onFit={onFit} />
+      <span className="ml-auto flex gap-1">
+        <button
+          type="button"
+          onClick={() => void copy()}
+          className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 text-caption font-semibold text-soft hover:text-ink"
+        >
+          <Copy className="size-3.5" /> Copy text
+        </button>
+        <button
+          type="button"
+          onClick={download}
+          className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 text-caption font-semibold text-soft hover:text-ink"
+        >
+          <Download className="size-3.5" /> .txt
+        </button>
+      </span>
     </div>
   );
 }
@@ -111,6 +159,16 @@ function PaperChrome({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void
   const pages = estimatePages(resume, templateId);
   const label = lengthLabel(pages);
 
+  const copy = async () => {
+    const ok = await copyText(resumeAsText(resume));
+    toast[ok ? "success" : "error"](ok ? "Copied as plain text" : "Could not copy");
+  };
+
+  const download = () => {
+    const name = (resume.identity.name || "resume").toLowerCase().replace(/\s+/g, "-");
+    downloadText(`${name}.txt`, resumeAsText(resume));
+  };
+
   return (
     <div className="no-print mb-4 flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-1">
@@ -120,9 +178,10 @@ function PaperChrome({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void
             type="button"
             onClick={() => setTemplate(t.id)}
             className={cn(
-              "h-9 rounded-pill px-3 text-caption font-semibold",
+              "h-9 rounded-pill px-3 text-caption font-semibold transition-[color,background-color] duration-150",
               t.id === templateId ? "bg-ink text-paper" : "text-soft hover:text-ink",
             )}
+            aria-pressed={t.id === templateId}
           >
             {t.name}
           </button>
@@ -137,48 +196,20 @@ function PaperChrome({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void
         <span className="ml-auto flex gap-1">
           <button
             type="button"
-            onClick={() => void copyText(resumeAsText(resume)).then((ok) => toast[ok ? "success" : "error"](ok ? "Copied as plain text" : "Could not copy"))}
+            onClick={() => void copy()}
             className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 font-semibold text-soft hover:text-ink"
           >
             <Copy className="size-3.5" /> Copy text
           </button>
           <button
             type="button"
-            onClick={() => downloadText(`${(resume.identity.name || "resume").toLowerCase().replace(/\s+/g, "-")}.txt`, resumeAsText(resume))}
+            onClick={download}
             className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 font-semibold text-soft hover:text-ink"
           >
             <Download className="size-3.5" /> .txt
           </button>
         </span>
       </div>
-    </div>
-  );
-}
-
-function LetterChrome({ fit, onFit }: { fit: boolean; onFit: (v: boolean) => void }) {
-  const letter = useResumeStore((s) => s.letter);
-  const resume = useResumeStore((s) => s.resume);
-  const name = resume.identity.name || "letter";
-  const text = letterAsText(letter, name);
-  return (
-    <div className="no-print mb-4 flex flex-wrap items-center gap-2">
-      <FitToggle fit={fit} onFit={onFit} />
-      <span className="ml-auto flex gap-1">
-        <button
-          type="button"
-          onClick={() => void copyText(text).then((ok) => toast[ok ? "success" : "error"](ok ? "Copied letter" : "Could not copy"))}
-          className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 text-caption font-semibold text-soft hover:text-ink"
-        >
-          <Copy className="size-3.5" /> Copy text
-        </button>
-        <button
-          type="button"
-          onClick={() => downloadText(`${name.toLowerCase().replace(/\s+/g, "-")}-letter.txt`, text)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-pill px-3 text-caption font-semibold text-soft hover:text-ink"
-        >
-          <Download className="size-3.5" /> .txt
-        </button>
-      </span>
     </div>
   );
 }

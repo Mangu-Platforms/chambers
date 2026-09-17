@@ -2,18 +2,25 @@ import type { Resume, TailorNotes } from "./types";
 import { cloneResume } from "./normalize";
 import { tokenize, uniqueKeywords } from "./text";
 
+const WEAK = /^(responsible for|worked on|helped with|helped|assisted with|assisted in|tasked with)\s+/i;
+
 export function tailorLocal(
   resume: Resume,
   jobDescription: string,
-): { resume: Resume; notes: TailorNotes } {
+): {
+  resume: Resume;
+  notes: TailorNotes;
+} {
   const next = cloneResume(resume);
   const keywords = uniqueKeywords(jobDescription);
   const jdTokens = new Set(tokenize(jobDescription));
+
   const overlap = (text: string) =>
     tokenize(text).reduce((n, t) => n + (jdTokens.has(t) ? 1 : 0), 0);
 
   const moved: string[] = [];
   const rewrote: string[] = [];
+
   const rankedJobs = [...next.experience].sort((a, b) => {
     const sa = overlap([a.role, a.org, ...a.bullets].join(" "));
     const sb = overlap([b.role, b.org, ...b.bullets].join(" "));
@@ -29,11 +36,10 @@ export function tailorLocal(
       moved.push(`Raised a matching bullet under ${job.role}.`);
     }
     job.bullets = job.bullets.map((b) => {
-      const tight = b
-        .replace(/^(responsible for|worked on|helped with|helped|assisted with)\s+/i, "Led ")
-        .replace(/\s+in order to\s+/gi, " to ");
-      if (tight !== b) rewrote.push(`Tightened a line under ${job.role}.`);
-      return tight;
+      if (!WEAK.test(b)) return b;
+      const nextBullet = b.replace(WEAK, "Led ");
+      if (nextBullet !== b) rewrote.push(`Tightened a weak opener under ${job.role}.`);
+      return nextBullet;
     });
   }
   next.experience = rankedJobs;
@@ -53,7 +59,7 @@ export function tailorLocal(
         missing.length > 4
           ? "Reordered your real experience toward this posting. Several required phrases still aren’t evidenced — don’t invent them."
           : "Reordered your real experience toward this posting. Coverage is already strong.",
-      moved,
+      moved: [...new Set(moved)],
       rewrote: [...new Set(rewrote)],
       missing: missing.slice(0, 12),
     },

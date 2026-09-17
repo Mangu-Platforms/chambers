@@ -9,6 +9,12 @@ export const TEMPLATE_IDS = [
 
 export type TemplateId = (typeof TEMPLATE_IDS)[number];
 
+export const LETTER_TONES = ["calm", "direct", "warm"] as const;
+export type LetterTone = (typeof LETTER_TONES)[number];
+
+export const DENSITIES = ["regular", "tight"] as const;
+export type Density = (typeof DENSITIES)[number];
+
 export type ResumeIdentity = {
   name: string;
   title: string;
@@ -83,4 +89,19 @@ export type TemplateMeta = {
   tone: string;
   ats: "high" | "medium";
   bestFor: string;
+};
+
+export type SavedVersion = {
+  id: string;
+  name: string;
+  savedAt: string;
+  resume: Resume;
+  templateId: TemplateId;
+  jobDescription: string;
+  targetCompany: string;
+  targetRole: string;
+  letter: CoverLetter;
+  notes: TailorNotes | null;
+  letterTone: LetterTone;
+  density: Density;
 };
