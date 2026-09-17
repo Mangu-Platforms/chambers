@@ -4,7 +4,7 @@ Letter-width resume and cover letter studio. Paste what you have. Put it on pape
 
 Apple calm × one vermilion hairline. Free on the device. No account. No watermark.
 
-Live: [chambers-neon.vercel.app](https://chambers-neon.vercel.app)
+Live: [chambers-app.vercel.app](https://chambers-app.vercel.app)
 
 Repo: [github.com/Mangu-Productivity-tools/chambers](https://github.com/Mangu-Productivity-tools/chambers)
 
@@ -49,9 +49,9 @@ npm run typecheck
 
 ## Deploy
 
-Vercel production: https://chambers-neon.vercel.app
+Vercel production: https://chambers-app.vercel.app
 
-`npm run build` emits the Nitro Vercel output. Optional `XAI_API_KEY` in the project environment for assistant refine (user-initiated only). Leave auth off.
+Linked to this repo (`Mangu-Productivity-tools/chambers`, branch `main`). `npm run build` emits the Nitro Vercel output. Optional `XAI_API_KEY` in the project environment for assistant refine (user-initiated only). Leave auth off.
 
 ## Docs
 
