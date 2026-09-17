@@ -2,34 +2,47 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { LiveMatch } from "@/components/ats/live-match";
+import { KeywordsCard as KeywordFitCard } from "@/components/ats/keywords-card";
 import { AppNav } from "@/components/layout/nav";
 import { PageSkeleton } from "@/components/layout/skeleton";
 import { Button } from "@/components/ui/button";
 import { Field, Textarea } from "@/components/ui/input";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { raceAi } from "@/lib/ai/timeout";
 import { rewriteBulletAi, writeSummaryAi } from "@/lib/ai/resume-ai";
+import { scoreAts, reportAsText } from "@/lib/resume/ats";
 import { localVariants } from "@/lib/resume/bullet-local";
+import { copyText } from "@/lib/resume/export-text";
 import { writeSummaryLocal } from "@/lib/resume/summary-local";
-import { actionVerb, hasMetric, uniqueKeywords } from "@/lib/resume/text";
+import { actionVerb, hasMetric } from "@/lib/resume/text";
 import { useResumeStore } from "@/lib/resume/store";
 
-export const Route = createFileRoute("/tools")({ component: ToolsPage });
+export const Route = createFileRoute("/tools")({
+  component: ToolsPage,
+  head: () => ({ meta: [{ title: "Tools · Chambers" }] }),
+});
 
 function ToolsPage() {
   const ready = useHydrated();
   if (!ready) return <PageSkeleton label="Loading tools" />;
+
   return (
     <div className="min-h-screen bg-paper">
       <AppNav />
       <div id="main" className="mx-auto max-w-page px-5 py-12 md:px-8">
         <span className="kicker">Free tools</span>
-        <h1 className="font-serif mt-3 text-3xl font-medium tracking-[-0.03em] md:text-5xl">Instant checks. Honest rewrites.</h1>
-        <p className="mt-4 max-w-2xl text-body text-soft">ATS scoring is local and free. Rewrites never invent a new employer.</p>
+        <h1 className="font-serif mt-3 text-3xl font-medium tracking-[-0.03em] md:text-5xl">
+          Instant checks. Honest rewrites.
+        </h1>
+        <p className="mt-4 max-w-2xl text-body text-soft">
+          ATS scoring is local and free. Rewrites use the assistant when it is available, and never
+          invent a new employer.
+        </p>
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
           <AtsCard />
           <BulletCard />
           <SummaryCard />
-          <KeywordsCard />
+          <KeywordFitCard />
         </div>
       </div>
     </div>
@@ -39,15 +52,35 @@ function ToolsPage() {
 function AtsCard() {
   const jobDescription = useResumeStore((s) => s.jobDescription);
   const setJobDescription = useResumeStore((s) => s.setJobDescription);
+  const resume = useResumeStore((s) => s.resume);
   return (
     <section className="hairline rounded-lg p-5">
       <h2 className="font-display text-[22px] font-semibold tracking-[-0.03em]">ATS check</h2>
       <Field label="Job description">
-        <Textarea className="min-h-36" value={jobDescription} onChange={(e) => setJobDescription(e.target.value)} />
+        <Textarea
+          className="min-h-36"
+          value={jobDescription}
+          onChange={(e) => setJobDescription(e.target.value)}
+        />
       </Field>
       <div className="mt-5">
         <LiveMatch />
       </div>
+      {jobDescription.trim() ? (
+        <Button
+          className="mt-4"
+          size="sm"
+          variant="ghost"
+          onClick={() => {
+            const report = scoreAts(resume, jobDescription);
+            void copyText(reportAsText(report, resume.identity.name)).then((ok) =>
+              toast[ok ? "success" : "error"](ok ? "Copied ATS notes" : "Could not copy"),
+            );
+          }}
+        >
+          Copy notes
+        </Button>
+      ) : null}
     </section>
   );
 }
@@ -57,7 +90,13 @@ function BulletCard() {
   const jobDescription = useResumeStore((s) => s.jobDescription);
   const replaceBullet = useResumeStore((s) => s.replaceBullet);
   const options = resume.experience.flatMap((j) =>
-    j.bullets.map((b, i) => ({ key: `${j.id}:${i}`, jobId: j.id, index: i, role: j.role, text: b })),
+    j.bullets.map((b, i) => ({
+      key: `${j.id}:${i}`,
+      jobId: j.id,
+      index: i,
+      role: j.role,
+      text: b,
+    })),
   );
   const [selected, setSelected] = useState(options[0]?.key ?? "");
   const current = options.find((o) => o.key === selected) ?? options[0];
@@ -68,14 +107,27 @@ function BulletCard() {
   const rewrite = async () => {
     if (bullet.trim().length < 8) return;
     setBusy(true);
-    try {
-      const ai = await rewriteBulletAi({ data: { bullet, context: `${resume.identity.title}\n${current?.role ?? ""}`, jobDescription } });
-      setVariants(ai.ok ? ai.variants : localVariants(bullet));
-    } catch {
-      setVariants(localVariants(bullet));
-    } finally {
-      setBusy(false);
-    }
+    const fallback = localVariants(bullet);
+    setVariants(fallback);
+    const ai = await raceAi(
+      rewriteBulletAi({
+        data: {
+          bullet,
+          context: `${resume.identity.title}\n${current?.role ?? ""}`,
+          jobDescription,
+        },
+      }),
+      8000,
+    );
+    if (ai?.ok) setVariants(ai.variants);
+    setBusy(false);
+  };
+
+  const apply = (text: string) => {
+    if (!current) return;
+    replaceBullet(current.jobId, current.index, text);
+    setBullet(text);
+    toast.success("Applied to the sheet");
   };
 
   return (
@@ -83,7 +135,9 @@ function BulletCard() {
       <h2 className="font-display text-[22px] font-semibold tracking-[-0.03em]">Rewrite a bullet</h2>
       {options.length > 0 ? (
         <label className="mt-3 block">
-          <span className="mb-1.5 block text-micro font-semibold uppercase tracking-[0.12em] text-soft">Line on the sheet</span>
+          <span className="mb-1.5 block text-micro font-semibold uppercase tracking-[0.12em] text-soft">
+            Line on the sheet
+          </span>
           <select
             className="h-11 w-full rounded-md border border-hair bg-paper px-3 text-body outline-none focus:ring-2 focus:ring-vermilion/20"
             value={current?.key ?? ""}
@@ -118,12 +172,7 @@ function BulletCard() {
               <button
                 type="button"
                 className="w-full rounded-md border border-hair px-3 py-2.5 text-left text-body hover:border-hair-strong"
-                onClick={() => {
-                  if (!current) return;
-                  replaceBullet(current.jobId, current.index, v);
-                  setBullet(v);
-                  toast.success("Applied to the sheet");
-                }}
+                onClick={() => apply(v)}
               >
                 {v}
               </button>
@@ -143,27 +192,28 @@ function SummaryCard() {
 
   const summary = async () => {
     setBusy(true);
-    try {
-      const ai = await writeSummaryAi({ data: { resume, jobDescription } });
-      if (ai.ok) {
-        patchResume({ summary: ai.summary });
-        toast.success("Summary updated on the sheet");
-      } else {
-        patchResume({ summary: writeSummaryLocal(resume, jobDescription) });
-        toast.message("Local summary — from your facts.");
-      }
-    } catch {
-      patchResume({ summary: writeSummaryLocal(resume, jobDescription) });
-    } finally {
-      setBusy(false);
+    const local = writeSummaryLocal(resume, jobDescription);
+    patchResume({ summary: local });
+    const ai = await raceAi(writeSummaryAi({ data: { resume, jobDescription } }), 8000);
+    if (ai?.ok) {
+      patchResume({ summary: ai.summary });
+      toast.success("Summary updated on the sheet");
+    } else {
+      toast.message("Local summary — same facts, tighter.");
     }
+    setBusy(false);
   };
 
   return (
     <section className="hairline rounded-lg p-5">
       <h2 className="font-display text-[22px] font-semibold tracking-[-0.03em]">Summary generator</h2>
-      <p className="mt-2 text-body leading-relaxed text-soft">Two or three sentences from the resume on the sheet.</p>
-      <p className="mt-4 rounded-md bg-fog px-3 py-3 text-body leading-relaxed">{resume.summary || "No summary yet."}</p>
+      <p className="mt-2 text-body leading-relaxed text-soft">
+        Two or three sentences from the resume on the sheet. Optional: bias toward the posting in
+        Tailor.
+      </p>
+      <p className="mt-4 rounded-md bg-fog px-3 py-3 text-body leading-relaxed">
+        {resume.summary || "No summary yet."}
+      </p>
       <Button className="mt-4" disabled={busy} onClick={() => void summary()}>
         {busy ? "Writing…" : "Rewrite summary"}
       </Button>
@@ -171,24 +221,3 @@ function SummaryCard() {
   );
 }
 
-function KeywordsCard() {
-  const jobDescription = useResumeStore((s) => s.jobDescription);
-  const keys = uniqueKeywords(jobDescription);
-  return (
-    <section className="hairline rounded-lg p-5">
-      <h2 className="font-display text-[22px] font-semibold tracking-[-0.03em]">Keywords in the posting</h2>
-      <p className="mt-2 text-body text-soft">Extracted locally. If it is not evidenced, do not invent it.</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {keys.length === 0 ? (
-          <span className="text-sm text-soft">Paste a posting in the ATS box.</span>
-        ) : (
-          keys.map((k) => (
-            <span key={k} className="inline-flex h-7 items-center rounded-pill border border-hair px-2.5 text-[11px]">
-              {k}
-            </span>
-          ))
-        )}
-      </div>
-    </section>
-  );
-}

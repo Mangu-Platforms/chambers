@@ -1,23 +1,29 @@
 # Chambers
 
-Letter-width resume and cover letter studio for [Mangu Platforms](https://github.com/Mangu-Platforms).
+Letter-width resume and cover letter studio. Paste what you have. Put it on paper. Tailor it to one posting. Never invent a fact.
 
-Paste what you have. Put it on paper. Tailor it to one posting. Never invent a fact.
+Apple calm × one vermilion hairline. Free on the device. No account. No watermark.
 
-> Apple calm × one vermilion hairline. Free on the device. No account. No watermark.
+Live: [github.com/Mangu-Productivity-tools/chambers](https://github.com/Mangu-Productivity-tools/chambers)
 
 ## Product
 
 | Surface | What it does |
 |---|---|
-| Start | Paste, `.txt`, or a finished sample |
-| Studio | Live letter-width sheet + editor + ATS check |
-| Tailor | Instant local reorder. Notes. Compare original |
-| Letter | Same voice, dated letterhead, print |
-| Paper | Six templates: Letter, Compact, Executive, Editorial, Sidebar, Classic |
-| Tools | ATS score, bullet variants, summary, keywords |
+| Start | Paste, `.txt`, `.json` (Chambers pack or JSON Resume), blank sheet, or a sample |
+| Studio | Live 816px sheet + editor + ATS check + keyword highlight |
+| Tailor | Instant local reorder. Notes. Compare original. Save a version |
+| Letter | Same voice, Measured / Short / Human tones, print |
+| Paper | Letter, Compact, Executive, Editorial, Sidebar, Classic |
+| Versions | Up to 20 named snapshots on this device |
+| Export | Print / PDF, Word `.docx`, Markdown, JSON Resume, Chambers pack |
+| Tools | ATS score, bullet variants, summary, keyword fit |
 
-Everything persists in `localStorage` (`chambers-studio`). Local tailor / parse / letter / ATS work with no API key.
+Everything persists in `localStorage` (`chambers-studio`). Local parse / tailor / letter / ATS work with no API key.
+
+## Honesty rule
+
+The tailor may reorder and rephrase. It must not invent employers, dates, degrees, tools, or metrics. Missing posting phrases stay listed. Keyword fit will only add a phrase to skills if it is already evidenced on the sheet.
 
 ## Run
 
@@ -26,20 +32,25 @@ npm install
 npm run dev
 ```
 
-Then open the printed URL. `npm run build` for production.
+Production build:
 
-## House language
+```bash
+npm run build
+```
 
-Design tokens still live in [`tokens/`](tokens/tokens.json) and the original HTML drops in [`design/`](design/drops/). The studio consumes the same palette: vermilion `#FF4D00`, ember `#D93F00`, ink, fog, cream, 816px letter width.
+## Tests
 
-## Honesty rule
+```bash
+npm run test:resume
+npm run typecheck
+```
 
-The tailor may reorder and rephrase. It must not invent employers, dates, degrees, tools, or metrics. Missing posting phrases stay listed.
+## Deploy
+
+Vercel. `npm run build` emits the Nitro Vercel output. Optional `XAI_API_KEY` in the project environment for assistant refine (user-initiated only). Leave auth off.
 
 ## Docs
 
-- [Studio](docs/STUDIO.md)
-- [PRD](docs/PRD.md)
-- [Inventory](docs/INVENTORY.md)
-- [Competitors](docs/COMPETITORS.md)
-- [Consume tokens](docs/CONSUME.md)
+- [FEATURES.md](FEATURES.md) — checklist
+- [PROGRESS.md](PROGRESS.md) — session log
+- [RESUME.md](RESUME.md) — product recap

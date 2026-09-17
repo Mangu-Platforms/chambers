@@ -5,5 +5,7 @@ import { useResumeStore } from "@/lib/resume/store";
 export function LiveLetter() {
   const letter = useResumeStore((s) => s.letter);
   const resume = useResumeStore((s) => s.resume);
-  return <LetterSheet letter={useDeferredValue(letter)} resume={useDeferredValue(resume)} />;
+  const deferredLetter = useDeferredValue(letter);
+  const deferredResume = useDeferredValue(resume);
+  return <LetterSheet letter={deferredLetter} resume={deferredResume} />;
 }
